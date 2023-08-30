@@ -15,6 +15,7 @@ function Signup() {
         e.preventDefault();
         // API Call
         const {name, email, password} = credentials;
+        console.log(registerRoute)
         const response = await fetch(`${registerRoute}`, {
             method: 'POST',
             headers: {
