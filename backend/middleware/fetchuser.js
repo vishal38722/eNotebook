@@ -2,7 +2,7 @@
 
 // const { read } = require('fs');
 var jwt = require('jsonwebtoken');
-const JWT_SECRET = 'v%i*s@h#$a&l'
+// const JWT_SECRET = 'v%i*s@h#$a&l'
 
 // at the end of the fetchuser, next function will be called
 const fetchuser = (req, res, next) => {             
@@ -14,7 +14,7 @@ const fetchuser = (req, res, next) => {
 
     try {
         // data after verification from JWT
-        const data = jwt.verify(token, JWT_SECRET);
+        const data = jwt.verify(token, process.env.JWT_SECRET);
         req.user = data.user;
         next();         // call for next function
     } catch (error) {

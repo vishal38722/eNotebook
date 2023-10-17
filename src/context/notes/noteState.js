@@ -1,9 +1,11 @@
 import NoteContext from "./noteContext";
 import React, { useState } from "react";
-
+import { fetchNotes } from "../../utils/APIRoutes";
+import { addNotes } from "../../utils/APIRoutes";
+import { deleteNotes } from "../../utils/APIRoutes";
+import { editNotes } from "../../utils/APIRoutes";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000"
   const initialNotes = []
 
   const [notes, setNotes] = useState(initialNotes)
@@ -11,7 +13,7 @@ const NoteState = (props) => {
   // Add a note
   const getNotes = async () => {
     // API Call
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+    const response = await fetch(`${fetchNotes}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ const NoteState = (props) => {
   const addNote = async (title, description, tag) => {
 
     // API Call
-    const response = await fetch(`${host}/api/notes/addnotes`, {
+    const response = await fetch(`${addNotes}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,7 +61,7 @@ const NoteState = (props) => {
   // delete a note
   const deleteNote = async (id) => {
     // API Call
-    const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
+    const response = await fetch(`${deleteNotes}/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -78,8 +80,8 @@ const NoteState = (props) => {
   // Adit a note
   const editNote =  async (id, title, description, tag) => {
     // API Call
-    const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
-      method: 'POST',
+    const response = await fetch(`${editNotes}/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'auth-token' : localStorage.getItem('token')

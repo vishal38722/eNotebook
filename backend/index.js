@@ -3,6 +3,8 @@
 const express = require('express')
 const cors = require('cors')
 const connectToMongo = require('./db');
+const authRoutes = require("./routes/auth");
+const noteRoutes = require("./routes/notes");
 require("dotenv").config();
 const app = express()
 
@@ -19,8 +21,8 @@ app.get("/", (req, res) => {
 app.use(express.json());
 
 // using 2 routes auth and notes in our express app
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/notes', require('./routes/notes'))
+app.use("/api/auth", authRoutes);
+app.use('/api/notes', noteRoutes)
 
 // this code is for route, this type of code we will write in '/route/auth.js' and '/route/notes.js' to maintain a better management only
 // app.get('/', (req, res) => {

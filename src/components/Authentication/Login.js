@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { useNavigate  } from 'react-router-dom';
-import { loginRoute } from "../utils/APIRoutes";
+import { loginRoute } from "../../utils/APIRoutes";
+import axios from 'axios';
 
 function Login() {
-    let navigate = useNavigate ();
+    let navigate = useNavigate();
 
     const [credentials, setCredentials] = useState({email:"", password:""});
     // const [password, setPassword] = useState("");
     // const [email, setEmail] = useState("");
     
     const handleChange = (e) => {
+        // ...credentials --> spread operator
         setCredentials({...credentials, [e.target.name]: e.target.value});
         // setEmail(...email, [e.target.name], e.target.value);
         // setPassword(...password, [e.target.name], e.target.value);
@@ -17,23 +19,16 @@ function Login() {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // API Call
-        const response = await fetch(`${loginRoute}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email:credentials.email, password:credentials.password })
-        });
-        const json = await response.json();
-        // console.log(json)
-        if (json.success) {
-            localStorage.setItem('token', json.authToken)
-            navigate("/")   
-        }
-        else {
-            alert("Invalid Credentials");
-        }
+        const { email, password } = credentials;
+        const { data } = await axios.post(loginRoute, {
+            email,
+            password,
+          });
+          console.log(data)
+          if (data.status === true) {
+            localStorage.setItem('token', data.authToken)
+            navigate("/")  
+          }
     }
 
 
